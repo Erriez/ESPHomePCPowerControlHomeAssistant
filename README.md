@@ -25,15 +25,15 @@ My NAS is based on an Intel Core I7 ASRock Z97 ATX motherboard and contains stan
 
 **ATX header USB 2.0:**
 
-Header `J1` pin 1 constant +5V power on pin 1, even when the PC is power-off and is used to power the NodeMCU. The ESP8266 or ESP8266 is powered via an on-board 3V3 regulator.
+Header `J1` pin 1 constant +5V power on pin 1, even when the PC is power-off and is used to power the NodeMCU. The ESP8266 or ESP32 is powered via an on-board 3V3 regulator.
 
 **ATX header System panel:**
 
 Header `J2` contains the power, reset and GND pins:
 
 * Power button pin 6.
-  * Short press: Turn PC on or off
-  * Long press: Generate hard reset
+  * Short press: Turn PC on or generate graceful shutdown.
+  * Long press: Generate hard power off.
 * Reset button pin 7.
   * Used to read power status (not for hard reset)
 * GND pin 5.
