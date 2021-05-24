@@ -1,6 +1,6 @@
-# ESP8266 ESPHome PC Power Control via Home Assistant
+# ESPHome PC Power Control via Home Assistant
 
-This project contains PC power control via HomeAssistant and ESPHome ESP8266 NodeMCU.  I use this project to power my ATX based NAS remotely on and off via Home Assistant.
+This project contains PC power control via HomeAssistant and ESPHome ESP8266 NodeMCU. I use this project to power my ATX based NAS remotely on and off via Home Assistant.
 
 Features:
 
@@ -77,10 +77,14 @@ esphome:
 wifi:
   ssid: !secret esphome_wifi_ssid
   password: !secret esphome_wifi_password
+
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Relay Fallback Hotspot"
+    ssid: "PC Power Fallback Hotspot"
     password: !secret esphome_ap_password
+
+# Enable logging
+logger:
 
 api:
   password: !secret esphome_api_password
@@ -101,7 +105,7 @@ binary_sensor:
     device_class: power
 ```
 
-### Secrets.yaml
+### secrets.yaml
 
 ```yaml
 esphome_api_password: "changeme"
