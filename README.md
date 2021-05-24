@@ -9,6 +9,10 @@ Features:
 * Read power status motherboard (is PC turned on or off).
 * Use existing power / reset buttons at the front panel.
 
+Youtube video:
+
+[![Youtube video](https://img.youtube.com/vi/rAcvqaPf830/0.jpg)](https://www.youtube.com/watch?v=rAcvqaPf830)
+
 ![Screenshot Home Assistant](images/ScreenshotHomeAssistant.jpg)
 
 ## Hardware
