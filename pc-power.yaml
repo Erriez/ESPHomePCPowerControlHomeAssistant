@@ -3,32 +3,51 @@ esphome:
   platform: ESP8266 # ESP8266 or ESP32
   board: nodemcuv2  # Any ESP8266 or ESP32 board
 
+# WiFi connection to base station
 wifi:
   ssid: !secret esphome_wifi_ssid
   password: !secret esphome_wifi_password
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "PC Power  Fallback Hotspot"
+    ssid: "PC Power Fallback Hotspot"
     password: !secret esphome_ap_password
+
+# captive_portal:
 
 # Enable logging
 logger:
 
+# Enable Home Assistant API
 api:
   password: !secret esphome_api_password
+
+# Enable OTA update via WiFi
 ota:
   password: !secret esphome_ota_password
 
 switch:
   - platform: gpio
-    name: "PC Power button"
+    name: "PC Power Toggle"
     icon: "mdi:electric-switch"
     pin: D2   # Power button output pin
+    id: power_short_press
     inverted: no
-    id: power_pin
+    on_turn_on:
+    - delay: 150ms
+    - switch.turn_off: power_short_press
+  - platform: gpio
+    name: "PC HARD POWER OFF"
+    icon: "mdi:electric-switch"
+    pin: D2   # Power button output pin
+    id: power_long_press
+    inverted: no
+    on_turn_on:
+    - delay: 3500ms
+    - switch.turn_off: power_long_press
+
 binary_sensor:
   - platform: gpio
-    pin: D1   # Power detect input pin
-    name: "PC Power Sense"
+    pin: D1   # Power detect input pin (readback from Reset button)
+    name: "PC Power State"
     device_class: power
