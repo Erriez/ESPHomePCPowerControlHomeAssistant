@@ -68,8 +68,8 @@ Header `J2` contains the power, reset and GND pins:
     * Low: power-off
 * GND pin 5.
 
-* Pin `D1` is used to read the power status from the reset pin: High is on, Low is off. Transistor `Q1` is used for secure isolation between ESP8266 and motherboard.
-* Pin `D2` is used to pull the power button low to generate a short or long press. Resistor `R1` is used to minimize current when the IO pin is accidentally set to output.
+* Pin `D1` is used to read the power status from the reset pin: High is on, Low is off. Resistor `R1` is used to minimize current when the IO pin is accidentally set to output.
+* Pin `D2` is used to pull the power button low to generate a short or long press. Transistor `Q1` is used for secure isolation between ESP8266 and motherboard.
 
 Warning: All ATX and ESP pins must be operating at 3V3.
 
