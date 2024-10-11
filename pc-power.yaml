@@ -1,7 +1,13 @@
 esphome:
   name: pc-power
-  platform: ESP8266 # ESP8266 or ESP32
-  board: nodemcuv2  # Any ESP8266 or ESP32 board
+
+# ESP8266 board
+esp8266:
+  board: nodemcuv2
+
+# Or: ESP32 board (comment out esp8266)
+# esp32:
+#   lolin_d32
 
 # WiFi connection to base station
 wifi:
@@ -24,30 +30,43 @@ api:
 
 # Enable OTA update via WiFi
 ota:
-  password: !secret esphome_ota_password
+  - platform: esphome
+    password: !secret esphome_ota_password
 
 switch:
   - platform: gpio
+    id: power_short_press
     name: "PC Power Toggle"
     icon: "mdi:electric-switch"
-    pin: D2   # Power button output pin
-    id: power_short_press
-    inverted: no
+    pin:
+      number: D2   # Power button output pin
+      inverted: false
+      allow_other_uses: true
+      mode:
+        output: true
     on_turn_on:
     - delay: 150ms
     - switch.turn_off: power_short_press
   - platform: gpio
+    id: power_long_press
     name: "PC HARD POWER OFF"
     icon: "mdi:electric-switch"
-    pin: D2   # Power button output pin
-    id: power_long_press
-    inverted: no
+    pin:
+      number: D2   # Power button output pin
+      inverted: false
+      allow_other_uses: true
+      mode:
+        output: true
     on_turn_on:
     - delay: 3500ms
     - switch.turn_off: power_long_press
 
 binary_sensor:
   - platform: gpio
-    pin: D1   # Power detect input pin (readback from Reset button)
     name: "PC Power State"
     device_class: power
+    pin:
+      number: D1   # Power detect input pin (readback from Reset button)
+      inverted: false
+      mode:
+        input: true
