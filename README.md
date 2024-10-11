@@ -108,70 +108,12 @@ Documentation:
 
 ### Project configuration
 
-Configure the `platform` and `board` as described in [ESPHome documentation](https://esphome.io/components/esphome.html) in `pc-power.yaml`:
+Configure the following files:
+- [pc-power.yaml](https://github.com/Erriez/ESPHomePCPowerControlHomeAssistant/blob/master/pc-power.yaml): Configure `platform` and `board`.
+- [secrets.yaml](https://github.com/Erriez/ESPHomePCPowerControlHomeAssistant/blob/master/secrets.yaml): Configure WiFi SSID and passwords
 
-```yaml
-esphome:
-  name: pc-power
-  platform: ESP8266 # ESP8266 or ESP32
-  board: nodemcuv2  # Any ESP8266 or ESP32 board
+Please refer to [ESPHome documentation](https://esphome.io/components/esphome.html) for more information about ESPHome YAML configuration.
 
-wifi:
-  ssid: !secret esphome_wifi_ssid
-  password: !secret esphome_wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "PC Power Fallback Hotspot"
-    password: !secret esphome_ap_password
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: !secret esphome_api_password
-
-# Enable OTA update via WiFi
-ota:
-  password: !secret esphome_ota_password
-
-switch:
-  - platform: gpio
-    name: "NAS Power Toggle"
-    icon: "mdi:electric-switch"
-    pin: D2   # Power button output pin
-    id: power_short_press
-    inverted: no
-    on_turn_on:
-    - delay: 150ms
-    - switch.turn_off: power_short_press
-  - platform: gpio
-    name: "NAS HARD POWER OFF"
-    icon: "mdi:electric-switch"
-    pin: D2   # Power button output pin
-    id: power_long_press
-    inverted: no
-    on_turn_on:
-    - delay: 3500ms
-    - switch.turn_off: power_long_press
-
-binary_sensor:
-  - platform: gpio
-    pin: D1   # Power detect input pin (readback from Reset button)
-    name: "NAS Power State"
-    device_class: power
-```
-
-Configure WiFi SSID and passwords in `secrets.yaml`:
-
-```yaml
-esphome_api_password: "changeme"
-esphome_ota_password: "changeme"
-esphome_ap_password: "changeme"
-esphome_wifi_ssid: "ssid"
-esphome_wifi_password: "password"
-```
 
 ### Program ESP8266 or ESP32
 
@@ -259,6 +201,31 @@ views:
 ## Version history
 
 Restart Home Assistant and ready to go!
+
+### Update 11 October 2024
+
+The ESPHome YAML file format changed with [ESPHome version 2024.6.0](https://esphome.io/changelog/2024.6.0.html#). The old format generates errors like:
+
+```
+$ esphome compile ESPHomePCPowerControlHomeAssistant/pc-power.yaml
+INFO ESPHome 2024.9.2
+INFO Reading configuration ESPHomePCPowerControlHomeAssistant/pc-power.yaml...
+Failed config
+
+ota.unknown: [source ESPHomePCPowerControlHomeAssistant/pc-power.yaml:27]
+
+  'ota' requires a 'platform' key but it was not specified.
+
+and:
+
+Failed config
+
+switch.gpio: [source ESPHomePCPowerControlHomeAssistant/pc-power.yaml:30]
+
+  Pin 4 is used in multiple places.
+```
+
+In this case, please update to the new file format in this project.
 
 ### Update 13 February 2022
 
